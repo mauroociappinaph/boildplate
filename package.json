@@ -17,7 +17,7 @@
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.15.21",
+    "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
     "@typescript-eslint/parser": "^8.32.1",
     "autoprefixer": "10.4.17",
@@ -50,6 +50,7 @@
     "@shadcn/ui": "^0.0.4",
     "@types/axios": "^0.9.36",
     "axios": "^1.9.0",
-    "zustand": "^5.0.5"
+    "zustand": "^4.5.0",
+    "zod": "^3.22.4"
   }
 }
