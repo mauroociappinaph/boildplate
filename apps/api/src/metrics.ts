@@ -34,4 +34,13 @@ setInterval(() => {
   systemUptime.inc(1);
 }, 1000);
 
+// Función para obtener métricas actuales
+export async function getMetrics() {
+  return {
+    httpRequests: await httpRequestsTotal.get(),
+    systemUptime: await systemUptime.get(),
+    httpRequestDuration: await httpRequestDurationMicroseconds.get()
+  };
+}
+
 export { register };

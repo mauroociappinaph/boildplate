@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { register } from '../metrics';
+import { register, getMetrics } from '../metrics';
 import { ApiResponseSchema } from '../validations';
 import { z } from 'zod';
 
@@ -62,6 +62,33 @@ router.get('/metrics', async (req, res) => {
     res.status(500).json({
       success: false,
       error: error instanceof Error ? error.message : 'Error al obtener métricas',
+    });
+  }
+});
+
+router.get('/', async (req, res) => {
+  try {
+    const metrics = await getMetrics();
+
+    const healthStatus = {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      metrics,
+      services: {
+        database: 'connected', // Esto debería verificarse realmente con Prisma
+        redis: 'connected',    // Si se usa Redis
+        api: 'operational'
+      }
+    };
+
+    res.status(200).json(healthStatus);
+  } catch (error) {
+    res.status(500).json({
+      status: 'unhealthy',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString()
     });
   }
 });
