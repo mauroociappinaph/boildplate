@@ -1,16 +1,6 @@
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb'
-    },
-  },
-  images: {
-    domains: [],
-  },
 }
 
 export default nextConfig
