@@ -1,25 +1,23 @@
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import express, { ErrorRequestHandler } from 'express';
 import dotenv from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
+import { disconnectPrisma } from './lib/prisma';
+import routes from './routes';
 
 // Cargar variables de entorno
 dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
 const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
 
-// Rutas básicas
-app.get('/', (req, res) => {
-  res.json({ message: 'API funcionando correctamente' });
-});
+// Rutas
+app.use('/api', routes);
 
 // Middleware de manejo de errores (debe ir después de todas las rutas)
-app.use(errorHandler);
+app.use(errorHandler as ErrorRequestHandler);
 
 // Iniciar servidor
 app.listen(port, () => {
@@ -28,6 +26,6 @@ app.listen(port, () => {
 
 // Manejo de errores
 process.on('SIGINT', async () => {
-  await prisma.$disconnect();
+  await disconnectPrisma();
   process.exit(0);
 });

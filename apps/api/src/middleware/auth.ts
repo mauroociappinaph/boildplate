@@ -17,13 +17,15 @@ export const authMiddleware = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      return res.status(401).json({ message: 'No se proporcionó token de autenticación' });
+      res.status(401).json({ message: 'No se proporcionó token de autenticación' });
+      return;
     }
 
     const token = authHeader.split(' ')[1];
 
     if (!token) {
-      return res.status(401).json({ message: 'Formato de token inválido' });
+      res.status(401).json({ message: 'Formato de token inválido' });
+      return;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
@@ -34,7 +36,7 @@ export const authMiddleware = async (
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({
+    res.status(401).json({
       message: 'Token inválido o expirado',
       error: error instanceof Error ? error.message : 'Error desconocido'
     });
