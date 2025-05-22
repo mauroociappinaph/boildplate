@@ -1,8 +1,8 @@
-# Boilerplate Moderno para Aplicaciones Web
+# Boilerplate para Aplicaciones Web
 
 ## Descripción General
 
-Este es un proyecto base (boilerplate) moderno para el desarrollo de aplicaciones web, utilizando una arquitectura de monorepo con Turborepo. Está diseñado para proporcionar una base sólida y escalable para el desarrollo de aplicaciones web modernas.
+Este es un proyecto base para el desarrollo de aplicaciones web, utilizando una arquitectura de monorepo. Proporciona una estructura inicial para comenzar a desarrollar aplicaciones web modernas.
 
 ## Tecnologías Implementadas
 
@@ -10,27 +10,20 @@ Este es un proyecto base (boilerplate) moderno para el desarrollo de aplicacione
 
 - **Next.js**: Framework de React para aplicaciones web
 - **Tailwind CSS**: Framework de utilidades CSS
-- **shadcn/ui**: Componentes de UI reutilizables
-- **Zustand**: Gestión de estado
 - **TypeScript**: Tipado estático
 
 ### Backend
 
 - **Node.js**: Runtime de JavaScript
 - **Express**: Framework web
-- **Prisma**: ORM para base de datos
-- **PostgreSQL**: Base de datos (configurada pero no implementada)
+- **TypeScript**: Tipado estático
 
 ### Herramientas de Desarrollo
 
-- **Turborepo**: Gestión de monorepo
 - **ESLint**: Linting de código
 - **Prettier**: Formateo de código
 - **Jest**: Testing
-- **Playwright**: Testing E2E
 - **Husky**: Git hooks
-- **Sentry**: Monitoreo de errores
-- **Mixpanel**: Analytics
 
 ## Estructura del Proyecto
 
@@ -39,7 +32,6 @@ Este es un proyecto base (boilerplate) moderno para el desarrollo de aplicacione
 │   ├── web/          # Aplicación frontend (Next.js)
 │   └── api/          # Servidor backend (Express)
 ├── packages/         # Paquetes compartidos
-├── prisma/          # Esquemas de base de datos
 ├── docs/            # Documentación
 └── config/          # Configuraciones compartidas
 ```
@@ -48,44 +40,41 @@ Este es un proyecto base (boilerplate) moderno para el desarrollo de aplicacione
 
 ### Desarrollo
 
-- ✅ Configuración de monorepo con Turborepo
+- ✅ Configuración básica de monorepo
 - ✅ Sistema de tipos con TypeScript
 - ✅ Linting y formateo de código
-- ✅ Testing unitario y E2E
+- ✅ Testing básico
 - ✅ Git hooks para calidad de código
-- ✅ Monitoreo de errores con Sentry
-- ✅ Analytics con Mixpanel
 
 ### Frontend
 
-- ✅ Configuración de Next.js
+- ✅ Configuración básica de Next.js
 - ✅ Sistema de estilos con Tailwind CSS
-- ✅ Componentes UI con shadcn/ui
-- ✅ Gestión de estado con Zustand
+- ✅ Estructura de carpetas organizada
 
 ### Backend
 
 - ✅ Estructura base con Express
-- ✅ Configuración de Prisma
-- ✅ Validación de datos con Zod
+- ✅ Sistema de rutas básico
+- ✅ Middleware de validación
 
 ## Roadmap (Próximas Características)
 
 ### Prioridad Alta
 
-- [ ] Sistema de autenticación completo
+- [ ] Sistema de autenticación
 - [ ] Panel de administración
-- [ ] Sistema de pagos
 - [ ] Gestión de usuarios
 - [ ] API REST completa
+- [ ] Base de datos con Prisma
 
 ### Prioridad Media
 
 - [ ] Sistema de notificaciones
 - [ ] Integración con servicios de email
 - [ ] Sistema de caché
-- [ ] Documentación de API con Swagger
-- [ ] Sistema de logs avanzado
+- [ ] Documentación de API
+- [ ] Sistema de logs
 
 ### Prioridad Baja
 
@@ -93,14 +82,13 @@ Este es un proyecto base (boilerplate) moderno para el desarrollo de aplicacione
 - [ ] Temas personalizables
 - [ ] Sistema de reportes
 - [ ] Dashboard de analytics
-- [ ] Sistema de backup automático
+- [ ] Sistema de backup
 
 ## Requisitos
 
 - Node.js >= 18.0.0
 - pnpm >= 10.11.0
-- Docker (opcional, para desarrollo local)
-- PostgreSQL (para producción)
+- Git
 
 ## Comenzando
 
