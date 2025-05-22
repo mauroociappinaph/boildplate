@@ -1,43 +1,29 @@
-'use client'
-
-import React from 'react'
+import React, { Component, ErrorInfo, ReactNode } from 'react'
 
 interface Props {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 interface State {
   hasError: boolean
-  error?: Error
 }
 
-class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { hasError: false }
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false
   }
 
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error }
+  public static getDerivedStateFromError(): State {
+    return { hasError: true }
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo)
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Error:', error, errorInfo)
   }
 
-  render() {
+  public render() {
     if (this.state.hasError) {
-      return (
-        <div className="flex min-h-screen flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold mb-4">Algo salió mal</h2>
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Intentar de nuevo
-          </button>
-        </div>
-      )
+      return <div>Ha ocurrido un error.</div>
     }
 
     return this.props.children
