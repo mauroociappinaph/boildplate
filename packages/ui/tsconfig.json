@@ -1,0 +1,22 @@
+{
+  "extends": "../config/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "target": "es6",
+    "outDir": "./dist",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../types" },
+    { "path": "../utils" }
+  ]
+}

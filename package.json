@@ -1,30 +1,19 @@
 {
   "name": "boildplate",
   "version": "1.0.0",
-  "description": "Este es un proyecto boilerplate para aplicaciones MicroSaaS.",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "test": "jest",
-    "prepare": "husky install",
-    "dev:web": "cd apps/web && next dev",
-    "dev:api": "cd apps/api && ts-node src/server.ts",
-    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
-    "build:web": "cd apps/web && next build",
-    "build:api": "cd apps/api && tsc",
-    "build": "npm run build:web && npm run build:api",
-    "start:web": "cd apps/web && next start",
-    "start:api": "cd apps/api && node dist/server.js",
-    "start": "concurrently \"npm run start:web\" \"npm run start:api\"",
-    "lint": "cd apps/web && next lint",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "format": "prettier --write \"apps/**/*.ts\"",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo run test",
+    "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
@@ -53,32 +42,11 @@
     "tailwindcss-animate": "^1.0.7",
     "ts-jest": "^29.3.4",
     "ts-node": "^10.9.2",
+    "turbo": "^1.12.4",
     "typescript": "^5.8.3"
   },
-  "directories": {
-    "doc": "docs"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.8.2",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@shadcn/ui": "^0.0.4",
-    "clsx": "^2.1.1",
-    "dotenv": "^16.5.0",
-    "eslint-scope": "^8.3.0",
-    "eslint-visitor-keys": "^4.2.0",
-    "express": "^5.1.0",
-    "next": "^15.3.2",
-    "prettier-linter-helpers": "^1.0.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "tailwind-merge": "^3.3.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mauroociappinaph/boildplate.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mauroociappinaph/boildplate/issues"
-  },
-  "homepage": "https://github.com/mauroociappinaph/boildplate#readme"
+  "packageManager": "npm@10.2.4",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
