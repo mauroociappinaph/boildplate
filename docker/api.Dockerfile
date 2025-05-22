@@ -12,6 +12,7 @@ COPY turbo.json ./
 COPY apps/api/package.json ./apps/api/
 COPY packages/utils/package.json ./packages/utils/
 COPY packages/types/package.json ./packages/types/
+COPY config/tsconfig.api.json ./config/
 
 # Instalar dependencias
 RUN pnpm install
