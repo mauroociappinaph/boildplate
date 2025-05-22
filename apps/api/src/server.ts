@@ -1,6 +1,7 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import { errorHandler } from './middleware/errorHandler';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -16,6 +17,9 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ message: 'API funcionando correctamente' });
 });
+
+// Middleware de manejo de errores (debe ir después de todas las rutas)
+app.use(errorHandler);
 
 // Iniciar servidor
 app.listen(port, () => {
