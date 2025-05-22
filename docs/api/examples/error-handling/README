@@ -1,0 +1,147 @@
+# Manejo de Errores
+
+## Códigos de Error Comunes
+
+### 400 Bad Request
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Error de validación",
+    "details": [
+      {
+        "field": "email",
+        "message": "El email es requerido"
+      },
+      {
+        "field": "password",
+        "message": "La contraseña debe tener al menos 8 caracteres"
+      }
+    ]
+  }
+}
+```
+
+### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "No autorizado",
+    "details": "Token de autenticación inválido o expirado"
+  }
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "FORBIDDEN",
+    "message": "Acceso denegado",
+    "details": "No tienes permisos para realizar esta acción"
+  }
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Recurso no encontrado",
+    "details": "El recurso con ID 123 no existe"
+  }
+}
+```
+
+### 409 Conflict
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "CONFLICT",
+    "message": "Conflicto",
+    "details": "Ya existe un recurso con estos datos"
+  }
+}
+```
+
+### 422 Unprocessable Entity
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "UNPROCESSABLE_ENTITY",
+    "message": "Entidad no procesable",
+    "details": [
+      {
+        "field": "fecha",
+        "message": "La fecha debe ser posterior a la fecha actual"
+      }
+    ]
+  }
+}
+```
+
+### 429 Too Many Requests
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Límite de peticiones excedido",
+    "details": "Has excedido el límite de 100 peticiones por minuto"
+  }
+}
+```
+
+### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_SERVER_ERROR",
+    "message": "Error interno del servidor",
+    "details": "Ha ocurrido un error inesperado"
+  }
+}
+```
+
+## Solución de Problemas Comunes
+
+### Problemas de Autenticación
+
+1. Verificar que el token sea válido y no haya expirado
+2. Asegurarse de que el token se está enviando en el header correcto
+3. Confirmar que el formato del token es correcto
+
+### Problemas de Validación
+
+1. Revisar que todos los campos requeridos estén presentes
+2. Verificar el formato de los datos enviados
+3. Comprobar las restricciones de longitud y formato
+
+### Problemas de Permisos
+
+1. Confirmar que el usuario tiene los roles necesarios
+2. Verificar los permisos específicos para la acción
+3. Comprobar si hay restricciones de acceso por IP o región
+
+### Problemas de Rate Limiting
+
+1. Implementar un sistema de reintentos con backoff exponencial
+2. Considerar el uso de caché para reducir peticiones
+3. Optimizar las peticiones para reducir su frecuencia

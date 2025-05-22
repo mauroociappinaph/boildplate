@@ -1,0 +1,91 @@
+# Ejemplos de Peticiones
+
+## Autenticación
+
+### Login
+
+```bash
+curl -X POST https://api.tudominio.com/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "usuario@ejemplo.com",
+    "password": "contraseña123"
+  }'
+```
+
+### Registro
+
+```bash
+curl -X POST https://api.tudominio.com/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Usuario Nuevo",
+    "email": "nuevo@ejemplo.com",
+    "password": "contraseña123",
+    "confirmPassword": "contraseña123"
+  }'
+```
+
+## CRUD Básico
+
+### Crear Recurso
+
+```bash
+curl -X POST https://api.tudominio.com/v1/recursos \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "nombre": "Nuevo Recurso",
+    "descripcion": "Descripción del recurso",
+    "categoria": "general"
+  }'
+```
+
+### Obtener Recurso
+
+```bash
+curl -X GET https://api.tudominio.com/v1/recursos/{id} \
+  -H "Authorization: Bearer {token}"
+```
+
+### Actualizar Recurso
+
+```bash
+curl -X PUT https://api.tudominio.com/v1/recursos/{id} \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {token}" \
+  -d '{
+    "nombre": "Recurso Actualizado",
+    "descripcion": "Nueva descripción"
+  }'
+```
+
+### Eliminar Recurso
+
+```bash
+curl -X DELETE https://api.tudominio.com/v1/recursos/{id} \
+  -H "Authorization: Bearer {token}"
+```
+
+## Consultas Complejas
+
+### Paginación y Filtrado
+
+```bash
+curl -X GET "https://api.tudominio.com/v1/recursos?page=1&limit=10&filter[categoria]=general" \
+  -H "Authorization: Bearer {token}"
+```
+
+### Búsqueda y Ordenamiento
+
+```bash
+curl -X GET "https://api.tudominio.com/v1/recursos?search=texto&sort=createdAt:desc" \
+  -H "Authorization: Bearer {token}"
+```
+
+### Consultas con Relaciones
+
+```bash
+curl -X GET "https://api.tudominio.com/v1/recursos?include=usuario,categorias" \
+  -H "Authorization: Bearer {token}"
+```

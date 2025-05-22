@@ -1,0 +1,130 @@
+# Ejemplos de Respuestas
+
+## Respuestas Exitosas
+
+### Respuesta Simple
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "nombre": "Ejemplo",
+    "createdAt": "2024-03-20T10:00:00Z"
+  }
+}
+```
+
+### Respuesta con Paginación
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "nombre": "Ejemplo 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Ejemplo 2"
+    }
+  ],
+  "meta": {
+    "currentPage": 1,
+    "totalPages": 5,
+    "totalItems": 50,
+    "itemsPerPage": 10
+  }
+}
+```
+
+### Respuesta con Relaciones
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "nombre": "Ejemplo",
+    "usuario": {
+      "id": 1,
+      "nombre": "Usuario Ejemplo"
+    },
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Categoría 1"
+      }
+    ]
+  }
+}
+```
+
+## Códigos de Estado
+
+### 200 OK
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "nombre": "Ejemplo"
+  }
+}
+```
+
+### 201 Created
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "nombre": "Nuevo Recurso",
+    "createdAt": "2024-03-20T10:00:00Z"
+  },
+  "message": "Recurso creado exitosamente"
+}
+```
+
+### 204 No Content
+
+```json
+{}
+```
+
+## Estructura de Datos
+
+### Formato de Fechas
+
+```json
+{
+  "createdAt": "2024-03-20T10:00:00Z",
+  "updatedAt": "2024-03-20T11:00:00Z"
+}
+```
+
+### Formato de IDs
+
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "externalId": "EXT-123-456"
+}
+```
+
+### Formato de Enlaces
+
+```json
+{
+  "links": {
+    "self": "/api/v1/recursos/1",
+    "related": {
+      "usuario": "/api/v1/usuarios/1",
+      "categorias": "/api/v1/categorias"
+    }
+  }
+}
+```

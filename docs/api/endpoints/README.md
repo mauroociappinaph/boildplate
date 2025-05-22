@@ -1,91 +1,86 @@
 # Endpoints de la API
 
+## Descripción General
+
+Esta sección contiene la documentación detallada de todos los endpoints disponibles en la API.
+
 ## Endpoints Disponibles
 
-### Salud del Sistema
+### Health Check
 
-- [Health Check](./health/README.md) - Verificar el estado del sistema
+- [Documentación de Health Check](./health/health.md)
+- Verificación del estado de la API
+- Monitoreo de servicios
 
 ### Usuarios
 
-- [Gestión de Usuarios](./users/README.md) - CRUD de usuarios
-- [Autenticación](./users/auth.md) - Login y registro
+- [Documentación de Usuarios](./users/users.md)
+- Gestión de usuarios
+- Autenticación y autorización
+- Perfiles y permisos
 
 ### Productos
 
-- [Gestión de Productos](./products/README.md) - CRUD de productos
-- [Categorías](./products/categories.md) - Gestión de categorías
+- [Documentación de Productos](./products/products.md)
+- Gestión de productos
+- Inventario y stock
+- Categorías y precios
 
-## Convenciones de Nombrado
+## Convenciones Generales
 
-- Todos los endpoints siguen el patrón REST
-- Utilizan kebab-case para las URLs
-- Versiones en la URL: `/v1/resource`
+### Formato de URLs
 
-## Formato de Peticiones
+- Todas las URLs siguen el patrón REST
+- Se utiliza kebab-case para las URLs
+- Versión de la API incluida en la URL (v1)
 
-### GET
+### Formato de Respuestas
 
-```bash
-curl -X GET https://api.tudominio.com/v1/resource
-```
+- Todas las respuestas son en formato JSON
+- Incluyen código de estado HTTP apropiado
+- Mensajes de error descriptivos
 
-### POST
+### Paginación
 
-```bash
-curl -X POST https://api.tudominio.com/v1/resource \
-  -H "Content-Type: application/json" \
-  -d '{"key": "value"}'
-```
+Los endpoints que devuelven listas soportan paginación con los siguientes parámetros:
 
-### PUT
+- `page`: Número de página
+- `limit`: Resultados por página
+- `sort`: Campo para ordenar
+- `order`: Orden (asc/desc)
 
-```bash
-curl -X PUT https://api.tudominio.com/v1/resource/1 \
-  -H "Content-Type: application/json" \
-  -d '{"key": "value"}'
-```
+### Autenticación
 
-### DELETE
+- La mayoría de los endpoints requieren autenticación
+- Se utiliza Bearer Token en el header Authorization
+- Algunos endpoints públicos no requieren autenticación
 
-```bash
-curl -X DELETE https://api.tudominio.com/v1/resource/1
-```
+## Ejemplos de Uso
 
-## Paginación
-
-Todos los endpoints que devuelven listas soportan paginación:
+### Health Check
 
 ```bash
-GET /v1/resource?page=1&limit=10
+curl -X GET https://api.ejemplo.com/v1/health
 ```
 
-Respuesta:
-
-```json
-{
-  "data": [],
-  "meta": {
-    "currentPage": 1,
-    "totalPages": 5,
-    "totalItems": 50,
-    "itemsPerPage": 10
-  }
-}
-```
-
-## Filtrado
-
-Los endpoints soportan filtrado mediante query parameters:
+### Usuarios
 
 ```bash
-GET /v1/resource?filter[status]=active&filter[type]=premium
+curl -X GET https://api.ejemplo.com/v1/users \
+  -H "Authorization: Bearer token123"
 ```
 
-## Ordenamiento
-
-Soporte para ordenamiento:
+### Productos
 
 ```bash
-GET /v1/resource?sort=createdAt:desc
+curl -X GET https://api.ejemplo.com/v1/products \
+  -H "Authorization: Bearer token123"
 ```
+
+## Consideraciones
+
+- Todos los endpoints devuelven respuestas en formato JSON
+- Se implementa rate limiting para prevenir abusos
+- Se utilizan códigos de estado HTTP estándar
+- Se mantiene versionado de la API
+- Se documentan todos los cambios en el changelog
