@@ -1,0 +1,373 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# 🧠 Rulescursor para proyectos microSaaS de Mauro
+
+Guía completa de buenas prácticas, estructura y convenciones para desarrollar proyectos modernos usando Next.js 14, Tailwind CSS, Express, Prisma, Zustand y herramientas asociadas. Su objetivo es garantizar escalabilidad, orden, rendimiento, mantenibilidad y colaboración fluida en productos tipo microSaaS.
+
+---
+
+## Navegación
+
+- Agregar un índice (table of contents) al principio o usar herramientas que permitan saltar rápido a secciones mejora mucho la experiencia.
+
+
+---
+
+## 1. Stack y estructura general
+
+- Utilizar Next.js 14 con App Router para el frontend, Tailwind CSS para estilos y schadcn/ui para componentes reutilizables.
+- El backend debe desarrollarse con Express y Node.js, utilizando Prisma como ORM para gestionar la base de datos.
+- La estructura de carpetas debe estar organizada por dominio funcional. Separar claramente UI, lógica, tipos, servicios, hooks y utilidades.
+- No se deben dejar carpetas vacías. Si una carpeta no tiene uso real, debe eliminarse.
+- Los archivos deben mantenerse por debajo de las 200 líneas para facilitar legibilidad, mantenimiento y modularización.
+- La lógica de negocio no debe mezclarse con la UI. Debe estar encapsulada en servicios, hooks o funciones auxiliares.
+- Colores y tipografías deben definirse como variables reutilizables para poder ser modificadas desde un único lugar.
+
+---
+
+## 2. Gestión de base de datos con Prisma
+
+- Los modelos deben definirse en el archivo schema.prisma siguiendo convenciones de nombres claras y consistentes.
+- Usar migraciones para versionar cambios en la estructura de datos.
+- Centralizar la instancia de Prisma Client para evitar múltiples conexiones.
+- Implementar validaciones estrictas antes de ejecutar cualquier operación sobre la base de datos.
+- Optimizar las consultas utilizando select e include solo para los datos necesarios.
+- Para operaciones múltiples, utilizar transacciones para garantizar atomicidad.
+- Documentar relaciones complejas directamente en el schema para facilitar el entendimiento del modelo.
+- Implementar tests para cualquier lógica que involucre interacción con la base de datos.
+
+---
+
+## 3. Linting y formateo
+
+- Usar Prettier para mantener un formateo de código uniforme.
+- ESLint debe configurarse con reglas estrictas que detecten errores comunes y aseguren buenas prácticas.
+- Eliminar todos los imports que no estén siendo utilizados para evitar código muerto.
+
+---
+
+## 4. Control de versiones
+
+- Utilizar ramas para cada feature, fix o release. Nunca trabajar directamente en main.
+- Los commits deben seguir la convención de Conventional Commits, usando prefijos como feat, fix, chore, docs, refactor o test.
+- Los mensajes deben ser descriptivos y enfocados en el objetivo del cambio.
+
+---
+
+## 5. Testing
+
+- Priorizar la cobertura de lógica crítica con tests unitarios.
+- Utilizar Jest o herramientas equivalentes para garantizar confiabilidad.
+- Implementar pruebas end-to-end para flujos importantes de usuario.
+- Automatizar la ejecución de pruebas como parte del proceso de integración continua.
+- Mantener una cobertura mínima del 80% en las partes sensibles del sistema.
+
+---
+
+## 6. Manejo de estado
+
+- Usar Zustand como librería para manejar el estado global de la aplicación.
+- Modularizar los stores por dominio o funcionalidad.
+- Los datos pesados o sensibles deben ser cacheados para evitar recargas innecesarias.
+- Sincronizar estos datos con el servidor mediante hooks personalizados.
+
+---
+
+## 7. Seguridad
+
+- Las claves y secretos deben gestionarse mediante variables de entorno. Nunca deben subirse al repositorio.
+- Validar todos los datos de entrada del usuario utilizando librerías como zod o joi.
+- Verificar los permisos del usuario para cualquier operación sensible en el backend.
+- Implementar HTTPS y otras prácticas de seguridad comunes para proteger los datos y las comunicaciones.
+
+---
+
+## 8. Despliegue
+
+- El despliegue se debe realizar en Vercel con una configuración estándar.
+- El proceso de CI/CD debe incluir ejecución de lint, tests y build antes del deploy.
+- Las variables de entorno sensibles deben ser configuradas exclusivamente desde el panel de Vercel.
+- Activar alertas automáticas para detectar errores en producción.
+- Implementar un pipeline de integración continua dividido en tres etapas:
+
+  1. **Validación**: Ejecutar lint, tests unitarios y build para asegurar calidad básica del código.
+
+  2. **QA**: Correr tests end-to-end en un ambiente de staging que simule producción.
+
+  3. **Despliegue gradual**:
+     - Iniciar desplegando solo al 10% del tráfico.
+     - Monitorear errores y métricas clave en tiempo real.
+     - Si no se detectan incidentes en los primeros 15 minutos, aumentar gradualmente hasta cubrir el 100% del tráfico.
+
+
+---
+
+## 9. Reutilización de código
+
+- Los componentes UI deben ser reutilizables y desacoplados de lógica de negocio.
+- La lógica repetida debe extraerse a funciones auxiliares o helpers en carpetas como utils o lib.
+- Evitar duplicación de código en todo el sistema.
+- Documentar funciones y componentes importantes para facilitar su uso y mantenimiento.
+
+---
+
+## 10. Comunicación con APIs
+
+- Usar axios u otra librería personalizada para realizar llamadas HTTP.
+- Manejar los errores globalmente y también por cada endpoint, mostrando feedback útil al usuario.
+- Implementar lógica de reintento o espera progresiva en llamadas críticas.
+- Loguear los errores de red o API para poder monitorear comportamientos inusuales.
+
+Implementar un servicio unificado para APIs con:
+- Interceptores para:
+  - Inyección automática de tokens
+  - Manejo centralizado de errores
+  - Transformación de datos
+- Timeouts configurables por endpoint
+- Cancelación de requests duplicados
+
+---
+
+## 11. Control de calidad con Husky
+
+- Husky debe usarse para agregar hooks en Git que ejecuten validaciones automáticas antes de cada commit o push.
+- En el pre-commit se debe ejecutar lint y tests sobre los archivos modificados.
+- El hook commit-msg debe validar que el mensaje siga la convención de commits.
+- Esto asegura que solo código de calidad y bien documentado llegue al repositorio principal.
+
+---
+
+## 12. Navegación
+
+- Usar el sistema de rutas de Next.js App Router y su componente Link para la navegación interna.
+- En caso de optar por React Router, se debe justificar claramente en la documentación del proyecto.
+
+---
+
+## 13. Separación entre lógica y UI
+
+- Toda lógica debe vivir en hooks o servicios. Los componentes UI deben limitarse al renderizado y manejo de props.
+- Evitar incluir lógica de negocio o llamadas HTTP dentro de componentes visuales.
+
+---
+
+## 14. Tipos e interfaces
+
+- Todos los tipos e interfaces deben definirse en la carpeta types.
+- Para grandes proyectos, considerar subcarpetas por dominio o contexto (por ejemplo: tipos de API, UI, DB, etc.).
+
+---
+
+## 15. Constantes
+
+- Las constantes globales deben agruparse en la carpeta constants.
+- Se deben usar nombres descriptivos y evitar repetir valores estáticos dispersos por el código.
+
+---
+
+## 16. Imágenes
+
+- Las imágenes deben cargarse utilizando el componente optimizado de Next.js.
+- Aplicar prácticas como lazy loading, uso de placeholders y definición explícita de tamaño para mejorar el rendimiento.
+
+---
+
+## 17. Logs y monitoreo
+
+- Centralizar el manejo de logs y errores tanto en backend como en frontend.
+- Utilizar herramientas como Sentry o LogRocket para seguimiento en producción.
+- Configurar alertas para detectar errores automáticamente en tiempo real.
+
+---
+
+## 18. Internacionalización y accesibilidad
+
+- Implementar soporte multilenguaje usando herramientas como next-i18next.
+- Aplicar buenas prácticas de accesibilidad: uso correcto de etiquetas HTML, roles, contraste adecuado y navegación por teclado.
+
+---
+
+## 19. Documentación
+
+- Documentar las APIs mediante herramientas como Swagger o OpenAPI.
+- Comentar tipos y servicios complejos para facilitar su uso.
+- Mantener siempre actualizado el README del proyecto.
+- Registrar en la documentación las decisiones técnicas importantes.
+
+---
+
+## 20. Limpieza general
+
+- Eliminar todo código no utilizado, incluyendo imports, funciones y componentes innecesarios.
+- No dejar carpetas vacías en la estructura del proyecto.
+- Identificar patrones repetidos y abstraerlos en funciones o helpers reutilizables.
+- Mantener una estructura limpia, ordenada y clara para cualquier nuevo colaborador.
+
+---
+
+## 21. Hidratación y SEO
+
+- Evitar errores de hidratación asegurando que el contenido renderizado del lado del servidor coincida con el del cliente.
+- Utilizar useEffect únicamente para lógica que no debe ejecutarse durante SSR.
+- Optimizar el SEO utilizando metadatos, etiquetas semánticas, renderizado estático o dinámico según la necesidad.
+
+---
+
+## 22. Variables globales de diseño
+
+- Colores y tipografías deben centralizarse como variables globales reutilizables.
+- Estas variables deben definirse en tailwind.config.js o mediante CSS variables en el root del proyecto.
+- Esto permite cambiar el aspecto visual del proyecto desde un único archivo.
+
+---
+
+## 23. Configuración de Cursor
+
+- Habilitar la opción de **"Shared Projects"** para permitir colaboración en tiempo real con otros desarrolladores.
+- Configurar y mantener **snippets compartidos** para componentes UI repetitivos, funciones comunes y hooks estándar.
+- Usar la **Command Palette** (atajo ⌘K / Ctrl+K) para navegar rápidamente entre archivos, ejecutar comandos o acceder a configuraciones sin salir del flujo de trabajo.
+- Aprovechar la funcionalidad de **AI Autocomplete** para acelerar la escritura de código, especialmente en funciones, tipados y estructuras repetidas.
+- Personalizar los atajos de teclado y el tema visual para mejorar productividad y legibilidad.
+- Activar herramientas de análisis de código que ofrece Cursor, como detección de imports no usados, sugerencias de refactorización y documentación automática.
+
+
+## 24. Performance
+
+- Implementar estrategias de **code splitting** para cargar solo el código necesario en cada vista o componente, reduciendo el tamaño inicial del bundle.
+- Optimizar los bundles minimizando dependencias innecesarias y aplicando técnicas como tree shaking.
+- Utilizar **prefetching** de rutas para mejorar la velocidad de navegación anticipando la carga de páginas que el usuario probablemente visitará.
+- Aplicar **caching estratégico** tanto en cliente como servidor para evitar recargas y mejorar tiempos de respuesta.
+- Medir y monitorear performance regularmente usando herramientas como Lighthouse o Web Vitals para detectar y corregir cuellos de botella.
+
+## 25. Manejo de errores
+
+- Implementar un patrón unificado para el manejo de errores tanto en frontend como en backend, asegurando consistencia en la captura y reporte.
+- Utilizar **error boundaries** en React para capturar errores en el árbol de componentes y evitar que toda la app se caiga.
+- Crear un servicio centralizado de notificación y logging de errores para facilitar el monitoreo y diagnóstico.
+- Mostrar mensajes de error claros y amigables al usuario sin exponer detalles técnicos sensibles.
+
+## 26. Onboarding para nuevos desarrolladores
+
+- Proveer un script automático (`setup.sh` o equivalente) que instale todas las dependencias y configure hooks y herramientas necesarias.
+- Mantener un archivo `project-guide.md` donde se expliquen todas las convenciones y reglas específicas del proyecto.
+- Incluir un video walkthrough o documentación audiovisual que explique la arquitectura general del proyecto y cómo arrancar.
+- Proveer una lista clara y actualizada de los comandos esenciales para desarrollo, construcción, testing y despliegue.
+
+## 27. Consideraciones para Monorepo
+
+- Para proyectos que escalen, considerar usar herramientas como Turborepo o Nx para gestionar múltiples packages dentro del mismo repositorio.
+- Sugerir una estructura organizada con carpetas principales como:
+  - `/apps` para aplicaciones concretas (por ejemplo: web, api)
+  - `/packages` para módulos compartidos (por ejemplo: ui, utils, types)
+- Esta estructura facilita el mantenimiento, despliegue y escalabilidad del proyecto.
+
+---
+
+## 28. Integración de IA en el desarrollo
+
+- Configurar prompts compartidos para la generación de código asistida por IA, asegurando coherencia y calidad.
+- Establecer estándares claros para la revisión y validación del código generado mediante IA.
+- Definir una política de uso responsable y eficiente del autocompletado y otras funcionalidades de IA para maximizar productividad sin comprometer la calidad.
+
+## 29. Consideraciones específicas para MicroSaaS
+
+- Implementar estrategias de **feature flags** para habilitar o deshabilitar funcionalidades de forma dinámica sin desplegar nuevo código.
+- Gestionar de manera eficiente períodos de prueba (trials) y suscripciones recurrentes para los usuarios.
+- Integrar pasarelas de pago confiables y seguras que soporten diferentes métodos y monedas.
+- Incorporar sistemas de analítica específicos para SaaS, monitoreando uso de features, conversión, churn y engagement para tomar decisiones informadas.
+
+## 30. Manejo avanzado de variables de entorno
+
+- Utilizar herramientas como dotenv-flow para gestionar múltiples ambientes (desarrollo, staging, producción) de forma sencilla.
+- Validar las variables de entorno usando librerías como zod para garantizar que estén definidas y con el formato correcto antes de iniciar la aplicación.
+
+---
+
+## 31. Health Checks y monitoreo
+
+- Implementar endpoints de salud (health checks) que permitan verificar el estado de los servicios y dependencias.
+- Integrar sistemas de monitoreo que consulten estos endpoints para alertar sobre posibles fallos o degradaciones del servicio.
+
+
+El endpoint `/health` debe verificar:
+- Conexión a base de datos
+- Estado de servicios externos
+- Uso de memoria/CPU
+- Versión actual del deployment
+- Tiempo promedio de respuesta
+
+1. Health Checks y monitoreo (ampliación)
+
+Se recomienda monitorear las siguientes métricas clave para mantener la salud y rendimiento del sistema:
+
+| Métrica             | Umbral de Alerta   | Herramienta Sugerida |
+|---------------------|--------------------|----------------------|
+| Tiempo de respuesta API | Mayor a 500 ms      | New Relic             |
+| Errores 5xx         | Más del 1% por hora | Sentry                |
+| Uso de CPU          | Más del 70%         | Datadog               |
+| Cobertura de tests  | Menor al 80%        | Coveralls             |
+| Tasa de conversión  | Caída del 30%       | Mixpanel              |
+
+Estas métricas deben ser configuradas con alertas automáticas para detectar y actuar rápidamente ante posibles incidentes.
+
+## 32. Versionado de API
+
+- Definir una estrategia clara de versionado de API para permitir evolución sin romper integraciones.
+- Usar versiones en rutas o en headers para distinguir cambios mayores, menores o parches.
+
+---
+
+## 33. Dockerización
+
+- Crear configuraciones para contenerizar la aplicación utilizando Docker.
+- Definir archivos Docker Compose para orquestar servicios relacionados (base de datos, cache, backend, frontend).
+- Asegurar que las imágenes sean ligeras y que el proceso de construcción sea reproducible y eficiente.
+
+
+
+## 34. Auditorías Periódicas
+
+Programar revisiones técnicas cada 2 meses para:
+- **Actualizar dependencias**: Usar `npm outdated` y renovar paquetes
+- **Optimizar bundles**: Analizar con `webpack-bundle-analyzer`
+- **Revisar métricas**:
+  - Performance (Lighthouse)
+  - Cobertura de tests
+  - Deuda técnica (SonarQube)
+- **Refactorizar**:
+  - Identificar componentes complejos
+  - Eliminar código duplicado
+  - Simplificar lógica enrevesada
+
+  ## 35. Organización y legibilidad del README
+
+- Para mejorar la legibilidad del README, cuando una sección sea muy larga o técnica, es recomendable crear documentos separados que profundicen en ese tema (por ejemplo, un archivo dedicado para Docker, otro para Testing, etc.).
+- En el README principal, se debe dejar una introducción breve a la sección y un enlace claro hacia el documento detallado correspondiente.
+- Esto facilita la navegación, evita que el README se vuelva inmanejable y ayuda a nuevos colaboradores a encontrar rápidamente la información que necesitan.
+
+## 36. Checklist para revisión de Pull Requests (PRs)
+
+Antes de hacer merge de un PR, se debe verificar:
+
+- Que todos los tests (unitarios y end-to-end) pasen correctamente.
+- Que la cobertura de tests en los cambios realizados sea mayor al 80%.
+- Que el código haya pasado linting sin errores ni warnings.
+- Que todas las variables de entorno nuevas estén documentadas y configuradas.
+- Que se mantenga compatibilidad con versiones anteriores cuando corresponda.
+- Que la documentación relacionada esté actualizada y sea clara.
+
+
+## 37. Configuración de `.gitignore` y archivos sensibles
+
+- Es obligatorio mantener un archivo `.gitignore` bien configurado para evitar subir al repositorio archivos innecesarios, generados o sensibles.
+- Asegurarse de ignorar siempre:
+  - Dependencias (`node_modules/`)
+  - Archivos de build (`.next/`, `dist/`, etc.)
+  - Archivos de entorno (`.env`, `.env.local`, `.env.*`)
+  - Logs y archivos temporales (`logs/`, `*.log`)
+  - Configuraciones locales (`.vscode/`, `.DS_Store`, etc.)
+- Nunca se deben subir claves API, tokens, credenciales u otros secretos. Estos deben estar gestionados mediante variables de entorno.
+- Validar que el archivo `.gitignore` esté presente y actualizado en cada nuevo repo o clonación del proyecto.

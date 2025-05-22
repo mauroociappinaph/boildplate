@@ -1,0 +1,21 @@
+{
+  "Next.js Functional Component": {
+    "prefix": "nfc",
+    "body": [
+      "interface ${1:ComponentName}Props {",
+      "  ${2:propName}: ${3:propType};",
+      "}",
+      "",
+      "const ${1:ComponentName} = async ({ ${2:propName} }: ${1:ComponentName}Props) => {",
+      "  return (",
+      "    <div className=\"${4:container-class}\">",
+      "      ${5:// Your component content}",
+      "    </div>",
+      "  );",
+      "};",
+      "",
+      "export default ${1:ComponentName};"
+    ],
+    "description": "Crea un componente funcional con TypeScript para Next.js"
+  }
+}
