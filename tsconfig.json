@@ -8,8 +8,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": ".",
+    "types": ["node", "jest"],
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "jest.config.ts", "jest.setup.ts"],
   "exclude": ["node_modules", "dist"]
 }
