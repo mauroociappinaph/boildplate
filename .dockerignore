@@ -1,0 +1,41 @@
+# Dependencias
+node_modules
+.pnpm-store
+
+# Archivos de construcción
+.next
+dist
+build
+
+# Archivos de desarrollo
+.git
+.github
+.vscode
+.idea
+*.log
+.env*
+!.env.example
+
+# Archivos de test
+coverage
+.nyc_output
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Archivos de documentación
+docs
+*.md
+!README.md
+
+# Archivos temporales
+*.swp
+*.swo
+.tmp
+temp
